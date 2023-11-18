@@ -1,0 +1,1 @@
+export const baseUrl="https://staging.fastor.in/v1"

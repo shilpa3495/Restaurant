@@ -1,24 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import { Provider } from "react-redux";
+import store from "./utils/store";
+import Login from "./Components/Login";
+import OtpVerification from "./Components/OtpVerification";
+import RestaurantInfo from "./Components/RestaurantInfo";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import ProtectedRoutes from "./Components/ProtectedRoute";
+import Restaurant from "./Components/Restaurant";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Login />,
+  },
+  {
+    path: "/verification",
+    element: <OtpVerification />,
+  },
+  {
+    element: <ProtectedRoutes />,
+    children: [
+      {
+        path: "/restaurant",
+        element: <Restaurant />,
+      },
+      {
+        path: "/restaurant/:resId",
+        element: <RestaurantInfo />,
+      },
+    ],
+  },
+]);
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <div className={`w-[375px] mx-auto h-screen flex`}>
+        <RouterProvider router={router} />
+      </div>
+    </Provider>
   );
 }
 
